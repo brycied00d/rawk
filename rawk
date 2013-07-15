@@ -25,15 +25,15 @@ rawk_template() {
     page_title="$(echo ${1##*/} | sed -e 's/^\(..*\)\...*$/\1/')" # get pagename
 
     # sedden death
-    rawk_tpl=$(cat $2 | sed -e "s|\${title}|$site_title|g"          \
-                            -e "s|\${subtitle}|$site_subtitle|"     \
-		            -e "s|\${site_root}|$site_root|"        \
-                            -e "s|\${date}|$(date)|"                \
-                            -e "s|\${page_title}|$page_title|"      \
+    rawk_tpl=$(cat $2 | sed -e "s|\${title}|$site_title|g"               \
+                            -e "s|\${subtitle}|$site_subtitle|"          \
+		                    -e "s|\${site_root}|$site_root|"             \
+                            -e "s|\${date}|$(date)|"                     \
+                            -e "s|\${page_title}|$page_title|"           \
                             -e "s|\${root_link}|${site_root}index.html|" \
-                            -e "s|\${active_$1}|active|" \
-                            -e "s|\${active_.*}|inactive|" \
-                            -e "s|\${.*}||"                        # Cleanup vars
+                            -e "s|\${active_$1}|active|"                 \
+                            -e "s|\${active_.*}|inactive|"               \
+                            -e "s|\${.*}||"           # Cleanup unused variables
     )
     echo "$rawk_tpl"
 }
