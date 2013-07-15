@@ -29,7 +29,10 @@ rawk_template() {
                             -e "s|\${subtitle}|$site_subtitle|"     \
 		            -e "s|\${site_root}|$site_root|"        \
                             -e "s|\${date}|$(date)|"                \
-                            -e "s|\${root_link}|${site_root}index.html|"    
+                            -e "s|\${page_title}|$page_title|"      \
+                            -e "s|\${root_link}|${site_root}index.html|" \
+                            -e "s|\${active_$1}|active|" \
+                            -e "s|\${.*}||"                        # Cleanup vars
     )
     echo "$rawk_tpl"
 }
