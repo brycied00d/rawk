@@ -85,7 +85,10 @@ rawk_page() {
         printf "\tos: $(uname -rms) -->\n"
         printf "<!-- generated on $(date) -->\n\n"
     fi
-    $mdparser $1
+    T=$(mktemp)
+    $mdparser $1 > $T
+    rawk_template $T $T
+    rm $verbose $T
     echo '</div>'
 
     rawk_template $1 $ftr_tpl
