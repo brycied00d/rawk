@@ -23,18 +23,22 @@ usage() {
 
 # $1->filename $2->template
 rawk_template() {
-    page_title="$(echo ${1##*/} | sed -e 's/^\(..*\)\...*$/\1/')" # get pagename
+    page_name="$(echo ${1##*/} | sed -e 's/^\(..*\)\...*$/\1/')" # get pagename
+    page_title="$(echo $page_name | sed -e 's|\(\-.\)|\U\1|g' \
+                                        -e 's|^\(.\)|\U\1|g' \
+                                        -e 's|\-| |g')"
 
     # sedden death
-    rawk_tpl=$(cat $2 | sed -e "s|\${title}|$site_title|g"               \
-                            -e "s|\${subtitle}|$site_subtitle|"          \
-		                    -e "s|\${site_root}|$site_root|"             \
-                            -e "s|\${date}|$(date)|"                     \
-                            -e "s|\${page_title}|$page_title|"           \
-                            -e "s|\${root_link}|${site_root}index.html|" \
-                            -e "s|\${active_$1}|active|"                 \
-                            -e "s|\${active_.*}|inactive|"               \
-                            -e "s|\${.*}||"           # Cleanup unused variables
+    rawk_tpl=$(cat $2 | sed -e "s|\${title}|$site_title|g"                \
+                            -e "s|\${subtitle}|$site_subtitle|g"          \
+		                    -e "s|\${site_root}|$site_root|g"             \
+                            -e "s|\${date}|$(date)|g"                     \
+                            -e "s|\${page_name}|$page_name|g"             \
+                            -e "s|\${page_title}|$page_title|g"           \
+                            -e "s|\${root_link}|${site_root}index.html|g" \
+                            -e "s|\${active_$1}|active|g"                 \
+                            -e "s|\${active_.*}|inactive|g"               \
+                            -e "s|\${.*}||g"          # Cleanup unused variables
     )
     echo "$rawk_tpl"
 }
