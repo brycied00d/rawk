@@ -14,6 +14,7 @@
 
 conf_file="rawkrc"
 site_root="/"
+verbose=
 
 usage() {
     echo "usage: $0 <source dir>"
@@ -104,15 +105,15 @@ rawk_main () {
     fi
 
     if [ ! -d "${target}" ]; then
-        mkdir ${target}
+        mkdir $verbose ${target}
     fi
 
     # copy over target dir
-    cp -r ${src_dir}/* ${target}/
+    cp $verbose -r ${src_dir}/* ${target}/
     cd ${target}
 
     if [ ! -d styles ]; then
-        mkdir styles
+        mkdir $verbose styles
     fi
 
     echo "$stylesheet" >styles/style.css
