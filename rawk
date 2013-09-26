@@ -123,7 +123,11 @@ rawk_main () {
         mkdir $verbose styles
     fi
 
-    echo "$stylesheet" >styles/style.css
+    #echo "$stylesheet" >styles/style.css
+    T=$(mktemp)
+    echo "$stylesheet" > $T
+    rawk_template style.css $T > styles/style.css
+    rm $verbose $T
 
     # here's where we need to load in the list of files
     # and convert md->html
